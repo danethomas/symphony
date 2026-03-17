@@ -26,11 +26,11 @@ Read `.symphony/build-review.md` carefully before touching anything.
 
 3. **Run simplify**
    ```bash
-   claude --print --dangerously-skip-permissions \
-     --system "You are a senior Rails engineer. Identify code that can be simplified without changing behaviour. Be conservative — only suggest changes you are confident are safe." \
-     -p "$(git diff main...HEAD)" > .symphony/simplify-suggestions.md
+   claude --print --dangerously-skip-permissions -p "/simplify" > .symphony/simplify-suggestions.md
    ```
-   Incorporate safe simplifications. Note what you applied vs skipped.
+   This runs Claude Code's built-in `/simplify` command — a structured pass that
+   identifies and applies safe code simplifications. Incorporate any changes it
+   makes. Note what you kept vs reverted.
 
 4. **Commit** using the `commit` skill
 
