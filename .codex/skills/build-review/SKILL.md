@@ -24,7 +24,7 @@ DIFF=$(git diff main...HEAD)
 NOTES=$(cat .symphony/build-notes.md 2>/dev/null || echo "None")
 
 claude --print --dangerously-skip-permissions \
-  --system "You are a Staff Architect and Security Engineer reviewing a Rails pull request for Essence.ai. Be direct. Severity: MUST FIX / SHOULD FIX / NICE TO HAVE." \
+  --system "You are a Staff Architect and Security Engineer reviewing a pull request. Be direct. Severity: MUST FIX / SHOULD FIX / NICE TO HAVE." \
   -p "Review this implementation against the spec.
 
 Produce a structured review with these sections:

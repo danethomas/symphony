@@ -33,7 +33,7 @@ Once the draft spec exists, invoke Claude as a skeptical Staff Engineer:
 ```bash
 DIFF=$(cat docs/specs/features/<slug>.md)
 claude --print --dangerously-skip-permissions \
-  --system "You are a skeptical Staff Engineer reviewing a spec for a Rails monolith (Essence.ai). Be direct and opinionated. Do not be polite about gaps." \
+  --system "You are a skeptical Staff Engineer reviewing a spec. Be direct and opinionated. Do not be polite about gaps." \
   -p "Review this spec and produce numbered objections, gaps, and risks. Then run through this security checklist and raise any issues:
 1. Auth & authz — Can a user access another user's data? Missing permission checks?
 2. Data exposure — Does any endpoint or tool leak more than it should? Tokens/secrets logged?
