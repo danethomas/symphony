@@ -93,11 +93,37 @@ The agent should be able to talk to Linear, either via a configured Linear MCP s
 - Operate autonomously end-to-end unless blocked by missing requirements, secrets, or permissions.
 - Use the blocked-access escape hatch only for true external blockers (missing required tools/auth) after exhausting documented fallbacks.
 
+## Multi-Agent Build Pipeline
+
+For non-trivial implementation tickets, use the three-phase build pipeline
+instead of implementing directly. This pipeline uses Claude Code as an
+independent reviewer while Codex remains the driver.
+
+**When to use the pipeline:** Any ticket that is not a simple one-liner fix,
+text change, or config update. If in doubt, use the pipeline.
+
+**Phase 1 — Implement** (read `.codex/skills/build-implement/SKILL.md`)
+Implement the feature. No PR. Leave workspace ready for review.
+
+**Phase 2 — Review** (read `.codex/skills/build-review/SKILL.md`)
+Invoke Claude as Architect + Security reviewer. Produce `.symphony/build-review.md`.
+
+**Phase 3 — Finalize** (read `.codex/skills/build-finalize/SKILL.md`)
+Apply review findings. Run simplify pass via Claude. Open PR with structured description.
+
+**Spec refinement** (read `.codex/skills/refine-spec/SKILL.md`)
+For large or ambiguous tickets: draft spec → Claude critique (with security checklist)
+→ revised spec → DRAFT PR for human approval before any code is written.
+
 ## Related skills
 
 - `linear`: interact with Linear.
 - `commit`: produce clean, logical commits during implementation.
 - `push`: keep remote branch current and publish updates.
+- `build-implement`: Phase 1 of multi-agent pipeline.
+- `build-review`: Phase 2 — Claude-powered review.
+- `build-finalize`: Phase 3 — apply review, simplify, open PR.
+- `refine-spec`: Pre-implementation spec refinement with Claude critique.
 - `pull`: keep branch updated with latest `origin/main` before handoff.
 - `land`: when ticket reaches `Merging`, explicitly open and follow `.codex/skills/land/SKILL.md`, which includes the `land` loop.
 

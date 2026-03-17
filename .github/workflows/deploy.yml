@@ -1,0 +1,43 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Sparky
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -euo pipefail
+
+            echo "==> Pulling latest symphony..."
+            cd ~/src/symphony
+            git fetch origin
+            git reset --hard origin/main
+
+            echo "==> Rebuilding Elixir binary..."
+            cd elixir
+            export PATH="$HOME/.local/bin:$PATH"
+            mise exec -- mix build
+
+            echo "==> Restarting Symphony tmux session..."
+            # Kill existing session gracefully, start fresh
+            tmux kill-session -t symphony 2>/dev/null || true
+            sleep 2
+            tmux new-session -d -s symphony -x 220 -y 50
+            tmux send-keys -t symphony "~/src/symphony/start.sh" Enter
+
+            echo "==> Deploy complete"
