@@ -10,6 +10,9 @@ description:
 
 Read `.symphony/build-review.md` carefully before touching anything.
 
+Refer to this repo's `WORKFLOW.md` for the correct commands to run tests,
+linters, and any pre-PR checks — do not assume a specific stack.
+
 ## Process
 
 1. **Address the review**
@@ -17,20 +20,16 @@ Read `.symphony/build-review.md` carefully before touching anything.
    - Apply SHOULD FIX items unless there is a clear, documented reason not to
    - NICE TO HAVE items are optional — note which you skipped and why
 
-2. **Run CI**
-   ```bash
-   bin/local bin/rails test
-   bin/local bundle exec rubocop -A
-   ```
+2. **Run CI** — use the test and lint commands from `WORKFLOW.md`
    Fix any failures before continuing.
 
 3. **Run simplify**
    ```bash
    claude --print --dangerously-skip-permissions -p "/simplify" > .symphony/simplify-suggestions.md
    ```
-   This runs Claude Code's built-in `/simplify` command — a structured pass that
-   identifies and applies safe code simplifications. Incorporate any changes it
-   makes. Note what you kept vs reverted.
+   This runs Claude Code's built-in `/simplify` command — a structured pass
+   that identifies and applies safe simplifications. Incorporate any changes
+   it makes. Note what you kept vs reverted.
 
 4. **Commit** using the `commit` skill
 
@@ -67,7 +66,7 @@ Do not open the PR until all sections are filled in.
 ## Checklist Before Done
 
 - [ ] All MUST FIX review items addressed
-- [ ] `bin/ci` passing
+- [ ] Tests and linter passing
 - [ ] Simplify pass complete
 - [ ] PR open with all template sections populated
 - [ ] Linear ticket in Human Review

@@ -8,8 +8,11 @@ description:
 
 # Refine Spec
 
-Run this skill when a ticket is tagged for spec work before implementation.
-It uses Claude Code as an independent reviewer — Codex drives, Claude advises.
+Run this skill when a ticket needs spec work before implementation. It uses
+Claude Code as an independent reviewer — Codex drives, Claude advises.
+
+Refer to this repo's `WORKFLOW.md` for any project-specific doc conventions,
+check commands, and branch/PR standards.
 
 ## Phase 1 — Architect (Draft)
 
@@ -58,8 +61,8 @@ critique. Append to `## Refinement Log`:
 
 ## Completion
 
-- Run `bin/local bin/rails docs:check` — fix any missing index links
+- Run any doc check commands specified in `WORKFLOW.md`
 - Branch: `spec/<issue-slug>`
 - Open a **DRAFT** PR titled `spec: <issue-title>`
-- PR description must NOT use "Closes #NNN" — the issue must stay open for build phase
+- PR description must NOT use "Closes #NNN" — the issue must stay open for the build phase
 - Move the Linear issue to `Human Review`
